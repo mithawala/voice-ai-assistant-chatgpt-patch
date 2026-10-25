@@ -1,8 +1,17 @@
 {
+  "version": "2026-10-25",
   "alpha": {
-    "speechButton": "button[aria-label=\"Start Voice\"].composer-submit-button-color",
-    "speechButtonAlt": "button[aria-label=\"Start Voice\"]",
-    "speechClose": "button[aria-label=\"End voice mode\"]",
-    "speechCloseAlt": "div.lk-room-container button[aria-label=\"Turn off microphone\"]"
+    "speechButton": "button[aria-label=\"Start Voice\"]",
+    "speechButtonAlt": "button[aria-label=\"Start voice\" i], button[aria-label=\"Start voice mode\" i]",
+    "speechClose": "button[aria-label=\"End Voice\"]",
+    "speechCloseAlt": "button[aria-label=\"End voice mode\" i]"
+  },
+  "v2": {
+    "startVoice": ["button[aria-label=\"Start Voice\"]", "button[aria-label=\"Start voice\" i]", "button[aria-label=\"Start voice mode\" i]"],
+    "endVoice": ["button[aria-label=\"End Voice\"]", "button[aria-label=\"End voice mode\" i]"],
+    "muteVoice": ["button[aria-label=\"Turn off microphone\"]"],
+    "composer": [".ProseMirror[contenteditable=\"true\"]", "[contenteditable=\"true\"][aria-label=\"Ask ChatGPT\"]"],
+    "send": ["button[aria-label=\"Send\"]", "button[aria-label=\"Send message\" i]", "button[data-testid=\"send-button\"]"],
+    "readAloud": ["button[aria-label=\"Read aloud\"]"]
   }
 }
