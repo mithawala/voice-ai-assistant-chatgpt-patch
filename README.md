@@ -26,6 +26,8 @@ ChatGPT changes its page from time to time. The extension downloads [`patch.json
 | `send` | The send button, shown once the message box has text |
 | `readAloud` | The "Read aloud" button under each answer |
 | `stopGenerating`, `loggedOut` | Optional: generation in progress, and the logged-out page |
+| `dismissNotices` | 2.0.1 and later: the start of the title of ChatGPT notifications that are harmless and get closed as soon as they appear (default: `Silero VAD failed to load`). Only ChatGPT's notifications are touched, never the chat |
+| `noticeToast`, `noticeClose` | 2.0.1 and later: a ChatGPT notification and its close button |
 
 Update `version` (a date) whenever selectors change, so users can see which fixes they have in **Settings → Troubleshooting**.
 
