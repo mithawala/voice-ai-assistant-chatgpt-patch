@@ -1,42 +1,57 @@
 # voice-ai-assistant-chatgpt-patch
 
-DOM selectors for [Voice AI Assistant](https://chromewebstore.google.com/detail/voice-ai-assistant/johkmflniodnhfahiipibjlgdkemnbhd), the Chrome extension that starts ChatGPT Voice with a wake word.
+DOM selectors for [Voice AI Assistant](https://chromewebstore.google.com/detail/voice-ai-assistant/johkmflniodnhfahiipibjlgdkemnbhd), the Chrome extension that starts a voice chat with ChatGPT or Microsoft Copilot when you say a wake word.
 
-ChatGPT changes its page from time to time. The extension downloads [`patch.json`](patch.json) (cached for two hours) so a broken button can be fixed here, without publishing a new extension version. No user data is sent with the request.
+The assistants change their pages from time to time. The extension downloads [`patch.json`](patch.json) (cached for two hours) so a broken button can be fixed here, without publishing a new extension version. No user data is sent with the request.
 
 ## Format
 
 ```json
 {
-  "version": "2026-10-25",
+  "version": "2026-10-26",
   "alpha": { "speechButton": "…", "speechButtonAlt": "…", "speechClose": "…", "speechCloseAlt": "…" },
-  "v2": { "startVoice": ["…"], "endVoice": ["…"], "composer": ["…"], "send": ["…"], "readAloud": ["…"] }
+  "v2": { "startVoice": ["…"], "endVoice": ["…"], "composer": ["…"], "send": ["…"], "readAloud": ["…"] },
+  "providers": {
+    "chatgpt": { "startVoice": ["…"], "endVoice": ["…"], "composer": ["…"], "send": ["…"] },
+    "copilot": { "startVoice": ["…"], "endVoice": ["…"], "composer": ["…"], "send": ["…"] }
+  }
 }
 ```
 
-- **`alpha`** is read by version 1.x: one CSS selector per key, tried with `querySelector`. Keep it valid for 1.x users.
-- **`v2`** is read by version 2.0 and later: each key is a list of CSS selectors, tried in order. They are tried *before* the selectors built into the extension, so a patch can only add fixes, never remove a working one.
+- **`alpha`** is read by version 1.x (ChatGPT only): one CSS selector per key, tried with `querySelector`. Keep it valid for 1.x users.
+- **`v2`** is read by version 2.0 (ChatGPT only). Keep it valid for 2.0 users.
+- **`providers`** is read by version 2.1 and later: one block per assistant (`chatgpt`, `copilot`, and later `gemini`). For ChatGPT it wins over `v2`.
+
+In `v2` and `providers`, each key is a list of CSS selectors, tried in order. They are tried *before* the selectors built into the extension, so a patch can only add fixes, never remove a working one.
 
 | Key | What it finds |
 | --- | --- |
-| `startVoice` | The button that starts ChatGPT Voice (only shown when the message box is empty) |
+| `startVoice` | The button that starts the assistant's voice chat |
 | `endVoice` | The button that ends a voice chat |
 | `muteVoice` | The microphone button during a voice chat |
 | `composer` | The message box (for "Type it for me") |
 | `send` | The send button, shown once the message box has text |
-| `readAloud` | The "Read aloud" button under each answer |
-| `stopGenerating`, `loggedOut` | Optional: generation in progress, and the logged-out page |
-| `dismissNotices` | 2.0.1 and later: the start of the title of ChatGPT notifications that are harmless and get closed as soon as they appear (default: `Silero VAD failed to load`). Only ChatGPT's notifications are touched, never the chat |
-| `noticeToast`, `noticeClose` | 2.0.1 and later: a ChatGPT notification and its close button |
+| `readAloud` | The "Read aloud" button under each answer (ChatGPT) |
+| `replyText` | An answer's text, read aloud with the browser's voice when there's no "Read aloud" button (Copilot) |
+| `stopGenerating`, `loggedOut`, `loggedOutText` | Optional: an answer being written, and the signed-out page |
+| `dismissNotices` | The start of the title of the assistant's notifications that are harmless and get closed as soon as they appear (ChatGPT: `Silero VAD failed to load`). Only notifications are touched, never the chat |
+| `noticeToast`, `noticeClose` | A notification and its close button |
 
 Update `version` (a date) whenever selectors change, so users can see which fixes they have in **Settings → Troubleshooting**.
 
 ## Checking a change
 
-In a signed-in ChatGPT tab, run in DevTools:
+In a signed-in tab, run in DevTools:
 
 ```js
-document.querySelectorAll('button[aria-label="Start Voice"]').length // 1 when the message box is empty
+// ChatGPT (chatgpt.com), message box empty
+document.querySelectorAll('button[aria-label="Start Voice"]').length // 1
+// Copilot (Microsoft 365 Copilot, copilot.cloud.microsoft), message box empty
+document.querySelectorAll('button[aria-label="Start a new voice chat"]').length // 1
 ```
 
-Last verified against chatgpt.com on 2026-10-25: the signed-in app uses `aria-label` "Start Voice", "End Voice", "Turn off microphone", "Send" and "Read aloud".
+Last verified on 2026-10-26:
+
+- **chatgpt.com** (signed in): `aria-label` "Start Voice", "End Voice", "Turn off microphone", "Send" and "Read aloud".
+- **Microsoft 365 Copilot** (copilot.cloud.microsoft, work account): "Start a new voice chat", "End voice chat" (`data-testid="End Realtime Conversation"`), "Mute", "Send", "Stop generating"; the message box is `#m365-chat-editor-target-element` ("Message Copilot"); answers are `[data-testid="copilot-message-reply-div"]`.
+- Personal Copilot (copilot.microsoft.com) wasn't checked; the extension also tries common labels for it ("Talk to Copilot", "Submit message", `textarea#userInput`).

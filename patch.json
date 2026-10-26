@@ -1,5 +1,5 @@
 {
-  "version": "2026-10-25",
+  "version": "2026-10-26",
   "alpha": {
     "speechButton": "button[aria-label=\"Start Voice\"]",
     "speechButtonAlt": "button[aria-label=\"Start voice\" i], button[aria-label=\"Start voice mode\" i]",
@@ -13,5 +13,25 @@
     "composer": [".ProseMirror[contenteditable=\"true\"]", "[contenteditable=\"true\"][aria-label=\"Ask ChatGPT\"]"],
     "send": ["button[aria-label=\"Send\"]", "button[aria-label=\"Send message\" i]", "button[data-testid=\"send-button\"]"],
     "readAloud": ["button[aria-label=\"Read aloud\"]"]
+  },
+  "providers": {
+    "chatgpt": {
+      "startVoice": ["button[aria-label=\"Start Voice\"]", "button[aria-label=\"Start voice\" i]", "button[aria-label=\"Start voice mode\" i]"],
+      "endVoice": ["button[aria-label=\"End Voice\"]", "button[aria-label=\"End voice mode\" i]"],
+      "muteVoice": ["button[aria-label=\"Turn off microphone\"]"],
+      "composer": [".ProseMirror[contenteditable=\"true\"]", "[contenteditable=\"true\"][aria-label=\"Ask ChatGPT\"]"],
+      "send": ["button[aria-label=\"Send\"]", "button[aria-label=\"Send message\" i]", "button[data-testid=\"send-button\"]"],
+      "readAloud": ["button[aria-label=\"Read aloud\"]"],
+      "dismissNotices": ["Silero VAD failed to load"]
+    },
+    "copilot": {
+      "startVoice": ["button[aria-label=\"Start a new voice chat\"]"],
+      "endVoice": ["button[aria-label=\"End voice chat\"]", "button[data-testid=\"End Realtime Conversation\"]"],
+      "muteVoice": ["button[aria-label=\"Mute\"]"],
+      "composer": ["#m365-chat-editor-target-element", "[contenteditable=\"true\"][role=\"textbox\"][aria-label=\"Message Copilot\"]"],
+      "send": ["button[aria-label=\"Send\"]"],
+      "stopGenerating": ["button[aria-label=\"Stop generating\"]"],
+      "replyText": ["[data-testid=\"copilot-message-reply-div\"]"]
+    }
   }
 }
