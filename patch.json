@@ -1,5 +1,5 @@
 {
-  "version": "2026-10-26",
+  "version": "2026-10-27",
   "alpha": {
     "speechButton": "button[aria-label=\"Start Voice\"]",
     "speechButtonAlt": "button[aria-label=\"Start voice\" i], button[aria-label=\"Start voice mode\" i]",
@@ -32,6 +32,11 @@
       "send": ["button[aria-label=\"Send\"]"],
       "stopGenerating": ["button[aria-label=\"Stop generating\"]"],
       "replyText": ["[data-testid=\"copilot-message-reply-div\"]"]
+    },
+    "cowork": {
+      "composer": ["span[contenteditable=\"true\"][role=\"textbox\"][aria-label=\"Chat input\"]", "[contenteditable=\"true\"][aria-label=\"Chat input\"]"],
+      "send": ["button[aria-label=\"Send\"]"],
+      "loggedOut": ["#cowork-hero-cta", "a[href*=\"/login?\"]"]
     }
   }
 }
