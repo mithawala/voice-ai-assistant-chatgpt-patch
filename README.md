@@ -8,7 +8,7 @@ The assistants change their pages from time to time. The extension downloads [`p
 
 ```json
 {
-  "version": "2026-10-27",
+  "version": "2026-10-29",
   "alpha": { "speechButton": "…", "speechButtonAlt": "…", "speechClose": "…", "speechCloseAlt": "…" },
   "v2": { "startVoice": ["…"], "endVoice": ["…"], "composer": ["…"], "send": ["…"], "readAloud": ["…"] },
   "providers": {
@@ -44,15 +44,20 @@ Update `version` (a date) whenever selectors change, so users can see which fixe
 In a signed-in tab, run in DevTools:
 
 ```js
-// ChatGPT (chatgpt.com), message box empty
-document.querySelectorAll('button[aria-label="Start Voice"]').length // 1
+// ChatGPT (chatgpt.com), message box empty; the second one works in any language
+document.querySelectorAll('button[aria-label="Start Voice"]').length // 1 (English)
+document.querySelectorAll('button:has(use[href*="-icon-voice-regular"])').length // 1
 // Copilot (Microsoft 365 Copilot, copilot.cloud.microsoft), message box empty
 document.querySelectorAll('button[aria-label="Start a new voice chat"]').length // 1
 ```
 
-Last verified on 2026-10-27:
+Labels are translated: ChatGPT's "Start Voice" is "Starta röst" in Swedish and "Sprachchat starten" in German. Prefer
+selectors without words, and keep the English ones first.
 
-- **chatgpt.com** (signed in): `aria-label` "Start Voice", "End Voice", "Turn off microphone", "Send" and "Read aloud".
-- **Microsoft 365 Copilot** (copilot.cloud.microsoft, work account): "Start a new voice chat", "End voice chat" (`data-testid="End Realtime Conversation"`), "Mute", "Send", "Stop generating"; the message box is `#m365-chat-editor-target-element` ("Message Copilot"); answers are `[data-testid="copilot-message-reply-div"]`.
-- **Copilot Cowork** (copilot.cloud.microsoft/cowork, work account): the task box is a `span[role="textbox"]` with `aria-label` "Chat input" ("Start a task…" on the home page, "Message Cowork" in a task); "Send" appears once it has text (before that the button is "Start dictation"). Tasks open at `/cowork#/task/<id>`. Signed out, /cowork is a landing page whose "Try Cowork" button (`#cowork-hero-cta`) links to /login. Verified end to end: a spoken task typed into a new task and sent, and a follow-up into the open task.
+Last verified on 2026-10-29:
+
+- **chatgpt.com** (signed in), in English, Swedish and German: `aria-label` "Start Voice", "End Voice", "Turn off microphone", "Send" and "Read aloud" in English (in Swedish "Starta röst", "Avsluta Röst", "Stäng av mikrofonen"; in German "Sprachchat starten", "Sprachmodus beenden", "Mikrofon ausschalten"). Without words: the voice button holds the icon `#codex-icon-voice-regular-20` (`use[href*="-icon-voice-regular"]`); during a voice chat the microphone button holds `#codex-icon-microphone-slash-…` and End, next to it, has no sprite icon (`div:has(> button use[href*="-icon-microphone-slash"]) > button:not(:has(use))`). Temporary chats have no voice button. Checked with what 2.2, 2.0 and 1.x do with this file: the voice chat starts and ends in all three languages, and End is never found when idle or with an unsent message.
+- **chatgpt.com, new message box** (signed out, and rolling out): the message box is a `textarea` ("Chat with ChatGPT") and voice is a link, `<a aria-label="Start Voice" data-start-voice>` (`[data-start-voice]`).
+- **Microsoft 365 Copilot** (copilot.cloud.microsoft, work account, checked 2026-10-27): "Start a new voice chat", "End voice chat" (`data-testid="End Realtime Conversation"`), "Mute", "Send", "Stop generating"; the message box is `#m365-chat-editor-target-element` ("Message Copilot"); answers are `[data-testid="copilot-message-reply-div"]`.
+- **Copilot Cowork** (copilot.cloud.microsoft/cowork, work account, checked 2026-10-27): the task box is a `span[role="textbox"]` with `aria-label` "Chat input" ("Start a task…" on the home page, "Message Cowork" in a task); "Send" appears once it has text (before that the button is "Start dictation"). Tasks open at `/cowork#/task/<id>`. Signed out, /cowork is a landing page whose "Try Cowork" button (`#cowork-hero-cta`) links to /login. Verified end to end: a spoken task typed into a new task and sent, and a follow-up into the open task.
 - Personal Copilot (copilot.microsoft.com) wasn't checked; the extension also tries common labels for it ("Talk to Copilot", "Submit message", `textarea#userInput`).

@@ -1,24 +1,24 @@
 {
-  "version": "2026-10-27",
+  "version": "2026-10-29",
   "alpha": {
     "speechButton": "button[aria-label=\"Start Voice\"]",
-    "speechButtonAlt": "button[aria-label=\"Start voice\" i], button[aria-label=\"Start voice mode\" i]",
+    "speechButtonAlt": "button:has(use[href*=\"-icon-voice-regular\"]), [data-start-voice]:not([hidden]):not([data-no-auth-bidi-composer-entrypoint]), a:has(use[href*=\"-icon-voice-regular\"]):not([data-no-auth-bidi-composer-entrypoint]), button[aria-label=\"Start voice\" i], button[aria-label=\"Start voice mode\" i]",
     "speechClose": "button[aria-label=\"End Voice\"]",
-    "speechCloseAlt": "button[aria-label=\"End voice mode\" i]"
+    "speechCloseAlt": "div:has(> button use[href*=\"-icon-microphone-slash\"]) > button:not(:has(use)), button[aria-label=\"End voice mode\" i]"
   },
   "v2": {
-    "startVoice": ["button[aria-label=\"Start Voice\"]", "button[aria-label=\"Start voice\" i]", "button[aria-label=\"Start voice mode\" i]"],
-    "endVoice": ["button[aria-label=\"End Voice\"]", "button[aria-label=\"End voice mode\" i]"],
-    "muteVoice": ["button[aria-label=\"Turn off microphone\"]"],
+    "startVoice": ["button[aria-label=\"Start Voice\"]", "button:has(use[href*=\"-icon-voice-regular\"])", "[data-start-voice]:not([hidden]):not([data-no-auth-bidi-composer-entrypoint])", "a:has(use[href*=\"-icon-voice-regular\"]):not([data-no-auth-bidi-composer-entrypoint])", "button[aria-label=\"Start voice\" i]", "button[aria-label=\"Start voice mode\" i]"],
+    "endVoice": ["button[aria-label=\"End Voice\"]", "div:has(> button use[href*=\"-icon-microphone-slash\"]) > button:not(:has(use))", "button[aria-label=\"End voice mode\" i]"],
+    "muteVoice": ["button[aria-label=\"Turn off microphone\"]", "button:has(use[href*=\"-icon-microphone-slash\"])"],
     "composer": [".ProseMirror[contenteditable=\"true\"]", "[contenteditable=\"true\"][aria-label=\"Ask ChatGPT\"]"],
     "send": ["button[aria-label=\"Send\"]", "button[aria-label=\"Send message\" i]", "button[data-testid=\"send-button\"]"],
     "readAloud": ["button[aria-label=\"Read aloud\"]"]
   },
   "providers": {
     "chatgpt": {
-      "startVoice": ["button[aria-label=\"Start Voice\"]", "button[aria-label=\"Start voice\" i]", "button[aria-label=\"Start voice mode\" i]"],
-      "endVoice": ["button[aria-label=\"End Voice\"]", "button[aria-label=\"End voice mode\" i]"],
-      "muteVoice": ["button[aria-label=\"Turn off microphone\"]"],
+      "startVoice": ["button[aria-label=\"Start Voice\"]", "button:has(use[href*=\"-icon-voice-regular\"])", "[data-start-voice]:not([hidden]):not([data-no-auth-bidi-composer-entrypoint])", "a:has(use[href*=\"-icon-voice-regular\"]):not([data-no-auth-bidi-composer-entrypoint])", "button[aria-label=\"Start voice\" i]", "button[aria-label=\"Start voice mode\" i]"],
+      "endVoice": ["button[aria-label=\"End Voice\"]", "div:has(> button use[href*=\"-icon-microphone-slash\"]) > button:not(:has(use))", "button[aria-label=\"End voice mode\" i]"],
+      "muteVoice": ["button[aria-label=\"Turn off microphone\"]", "button:has(use[href*=\"-icon-microphone-slash\"])"],
       "composer": [".ProseMirror[contenteditable=\"true\"]", "[contenteditable=\"true\"][aria-label=\"Ask ChatGPT\"]"],
       "send": ["button[aria-label=\"Send\"]", "button[aria-label=\"Send message\" i]", "button[data-testid=\"send-button\"]"],
       "readAloud": ["button[aria-label=\"Read aloud\"]"],
